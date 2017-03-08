@@ -1,0 +1,556 @@
+\documentclass[a4paper,14pt]{extreport}
+\renewcommand{\baselinestretch}{1.5} %1,5 междустрочный интервал
+\usepackage{ucs}
+\usepackage{wrapfig}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8x]{inputenc} % Включаем поддержку UTF8
+%\usepackage{times} % Шрифт Times New Roman
+\usepackage[small]{titlesec} % чуть уменьшаем размер заголовков глав и разделов
+\usepackage[english,russian]{babel}%используем русский и английский языки с переносами
+\usepackage{amssymb,amsfonts,amsmath,mathtext,cite,enumerate,float}
+\usepackage{indentfirst} %Включаем первый отступ для абзаца
+\usepackage{geometry} % Меняем поля страницы
+\geometry{left=2cm}% левое поле
+\geometry{right=1.5cm}% правое поле
+\geometry{top=1cm}% верхнее поле
+\geometry{bottom=2cm}% нижнее поле
+\usepackage[final]{graphicx}
+\graphicspath{{img/}}%путь к рисункам
+\setcounter{secnumdepth}{4}
+\begin{document}
+\addtocounter{chapter}{3}
+\addtocounter{section}{10}
+\addtocounter{subsection}{2}
+\subsection {Формирование управления }
+Работая в базисе $[ f ] $ , мы имеем $p$ изолированных подсистем, сумма выходов которых подаётся на вход общей подсистемы с матрицей динамики $A_{00}$ размерности $n-\sum_{i=1}^{p}m_i$:
+\begin{equation}
+\begin{cases}
+\dot{\vec{z_1}}=A_{11}\vec{z_1}+\vec{\beta_1}q_1;  y_1=z_{11};\\
+\dots\dots\dots\dots\dots\\
+\dot{\vec{z_p}}=A_{pp}\vec{z_p}+\vec{\beta_p}q_p;  y_p=z_{p1};\\
+\dot{\vec{z_0}}=A_{00}\vec{z_0}+\sum_{v=1}^{p}A_{0v}\vec{z_v}.
+\end{cases}
+\end{equation}
+Соответствующая структурная схема представлена на рис. 3.14.
+
+Пары матриц $\{A_{ii},\vec{\beta_i}\} $ для $ i=1,2, \dots, p$ имеют форму УКП, причем каждая из матриц $A_{ii}$ имеет только нулевые собственные значения. Это вполне согласуется с тем, что в п. 3.10.1 было произведено преобразование объекта на подсистемы последовательно включённых интеграторов. Сформируем управление $q_i $ для $ i=1,2,\dots, p $  в следующем виде:
+\begin{equation}
+q_i=k_iv_i(t)+l_{fi}\vec{z_i}(t,)
+\end{equation}
+где
+\begin{equation}
+l_{fi}=[l_{i1}^{f} l_{i2}^{f} \dots l_{i,m_i}^{f}]-
+\end{equation}
+матрица обратной связи для  $i$-й подсистемы в базисе $[f] $.
+\begin{figure}[H]
+	\centering{\includegraphics[width=0.7\linewidth]{1}}
+	\caption{Структурня схема объекта в базисе$[f]$}
+\end{figure}
+Тогда получим следующее дифференциальное уравнение для $i$-й подсистемы:
+\begin{eqnarray}
+\dot{\vec{z_i}}=A_{ii}\vec{z_i}+\vec{\beta_i}l_{fi}\vec{z_i}+\vec{\beta_i}k_iv_i,
+\end{eqnarray}
+или
+\begin{equation}
+\dot{\vec{z_i}}=\chi_{fi}\vec{z_i}+\vec{\beta_i}k_iv_i.
+\end{equation}
+Нетрудно убедиться, что матрица динамики $i$-й подсистемы в базисе $[f]$ имеет вид
+\begin{equation}
+\chi_{fi}=
+\begin{bmatrix}
+0 & 1 & 0 & \cdots & 0\\
+0 & 0 & 1 & \cdots & 0\\
+\vdots & \vdots & \vdots & \vdots & \vdots\\
+0 & 0 & 0 & \cdots & 1\\
+l_{i1}^{f} &l_{i2}^{f} & l_{i3}^{f} &\cdots&l_{i,m_i}^{f} 
+\end{bmatrix}
+\end{equation}
+Следовательно, определены характеристические полиномы подси-стем:
+\begin{equation}
+\varphi_i(\lambda)=\lambda^{m_i}-l_{i,m_i}^{f}\lambda^{m_i-1}-l_{i,m_i-1}^f\lambda^{m_i-2}-\dots-l_{i1}^{f}.
+\end{equation}
+Согласно (3.8.22), а также  с учетом (3.10.13), (3.10.24) и (3.10.37) запишем выражение для передаточной функции замкнутой $i$-й подсистемы:
+\begin{equation}
+W_{v_iy_i}(p)=\frac{k_i}{p^{m_i}-l_{i,m_i}^{f}p{m_i-1}-\dots-l_{i1}^{f}}.
+\end{equation}
+Очевидно
+\begin{equation}
+W_{v_iy_i}(0)=\frac{k_i}{-l_{i1}^{f}}.
+\end{equation}
+
+Задавая расположение полюсов и статику для каждой подсисте-мы, в итоге получим матрицы
+\begin{equation}
+L_f=
+\begin{bmatrix}
+l_{f1}&0&\cdots&0&0\\
+0&l_{f2}&\cdots&0&0\\
+\vdots&\vdots&\vdots&\vdots&\vdots\\
+0&0&\cdots&l_{f,p}&0
+\end{bmatrix};
+k_v=
+\begin{bmatrix}
+k_1&0&\cdots&0\\
+0&k_2&\cdots&0\\
+\vdots&\vdots&\vdots&\vdots\\
+0&0&\cdots&k_p
+\end{bmatrix}.
+\end{equation}
+Возвращаясь в исходный базис для уравнений (3.10.13), получим
+\begin{equation}
+\underset{v}{L}=L_fF_{e}^{-1}.
+\end{equation}
+При этом вектор $\vec{q}$ формируется в соответствии с выражением
+\begin{equation}
+\vec{q}(t)=\underset{v}{L}\vec{x}(t)+\underset{v}{k}\vec{v}(t).
+\end{equation}
+Учитывая (3.10.10), окончательно получим
+\begin{equation}
+\vec{u}=B_{*}^{-1}F_*\vec{x}+B_{*}^{-1}\underset{v}{L}\vec{x}+B_{*}^{-1}\underset{v}{k}V(t)=L\vec{x}+k\vec{V},
+\end{equation}
+где
+\begin{equation}
+L=B_{*}^-1(F_*+L_v);\qquad k=B_{*}^-1\underset{v}{k}.
+\end{equation}
+
+На этом можно закончить синтез, если часть системы, оказавшаяся вне обратной связи, имеет допустимые динамические свойства. Если же нет, например $A_{00}$  - неустойчива, то приходится идти на то, чтобы ввести обратную связь $L_0$ , по вектору $\vec{z_0}$ , по крайней мере, через один из каналов $(q_r)$ , оставив полностью развязанными остальные (p-1) каналов. В этом случае $k_{rv},l_{fr},l_{f0}$ нужно рассчитывать совместно. Связь $L_0$ должна обеспечить «надзор» за бывшими ранее без контроля $(n-\sum m_i)$ полюсами (собственными числами) системы. Эта часть расчета может быть произведена по обычной методике синтеза системы с одним входом. Результирующая структура в базисе $[f]$ приведена на рис.  3.15.
+\begin{figure}[H]
+	\centering{\includegraphics[width=0.7\linewidth]{2}}
+	\caption{Структурня схема объекта в базисе$[f]$}
+\end{figure}
+\subsection {Итоговый алгоритм}
+\begin{enumerate}
+ \item Расчет чисел $m_i,i=1,2,\dots ,p$ :
+ \begin{equation}
+ m_i=m_{\text{max}}
+ \begin{cases}
+ C_iA^{m-1}B\neq0;\\
+ C_iA^{m-2}B=0.
+ \end{cases}
+ \end{equation}
+ Эти числа можно также находить непосредственно из схемы в переменных состояния.
+ \item Вычисление матриц $F_*,B_*$:
+ \begin{equation}
+ f_*=-
+ \begin{bmatrix}
+ C_1A^{m_1}\\
+ \vdots\\
+ C_pA^{m_p}
+ \end{bmatrix};
+ B_*=
+ \begin{bmatrix}
+ C_1A^{m_1-1}\\
+ \vdots\\
+ C_pA^{m_p-1} 
+ \end{bmatrix}B.
+ \end{equation}
+ \item Вычисление $B_{*}^{-1}$. Если $B_*$ - вырождена, то задача разделения каналов не имеет решения.
+ \item Вычисление матриц $\underset{v}{A},\underset{v}{B}$:
+ \begin{equation}
+ \underset{v}{A}=A+\underbrace{BB_{*}^{-1}}_{\underset{v}{B}}F_*;\underset{v}{B}=BB_{*}^{-1}.
+ \end{equation}
+ \item Построение матрицы $F_e$ :
+ \begin{equation}
+  f_e=\left[\underset{v}{A^{m_1-1}}\underset{v}{\vec{b_1}}\vdots\dots\vdots\underset{v}{\vec{b_1}}\vdots\vdots\underset{v}{A^{m_2-1}}\underset{v}{\vec{b_2}}\vdots\dots\vdots\underset{v}{\vec{b_2}}\vdots\dots\vdots\underset{v}{\vec{b_p}}\vdots[f_{\text{ост}}]\right].
+ \end{equation}
+\item Расчет коэффициентов характеристических уравнений каналов, то есть строк $l_{fi}$. Для этого предварительно должны быть заданы наборы желаемых собственных чисел $(\lambda_{i1},\lambda_{i2},\dots,\lambda_{im_i})$ по каждому из каналов, после чего в соответствии с равенством
+\begin{equation}
+\prod\limits_{v=1}^{m_i}(\lambda-\lambda_{iv})=\lambda^{m_i}-l_{i,m_i}^{f}\lambda^{m_i-1}-l_{i,m_i-1}^f\lambda^{m_i-2}-\dots-l_{i1}^{f}
+\end{equation}
+следует рассчитать
+\begin{equation}
+l_{fi}=\left[l_{i1}^{f} \dots l_{i,m_i}^{f}\right]
+\end{equation}
+и сформировать матрицу 
+\begin{equation}
+L_f=
+\begin{bmatrix}
+l_{f1}&0&\dots&0\\
+0&l_{f2}&\dots&0\\
+\vdots&\vdots&\vdots&\vdots\\
+0&0&\dots&l_{fp}
+\end{bmatrix}.
+\end{equation}
+\item Расчет (построение в соответствии с выбранным базисом) матрицы $A_{00}$ и вычисление ее собственных чисел.
+\item Принятие решения о необходимости завязки каналов для коррек-ции собственных чисел полинома $\varphi_0(\lambda)$. В случае необходимости - выбрать канал для коррекции и далее провести для него расчет по методике синтеза системы с одним входом. В конечном итоге должна быть получена $L_f$ - полная матрица обратной связи проме-жуточной системы в базисе $[f]$.
+\item Расчет матрицы $\underset{v}{k}$  по заданным коэффициентам $W_i(0):$
+\begin{equation}
+\underset{v}{k_i}=-W_i(0)l_{i1}^{f}
+\end{equation}  
+и
+\begin{equation}
+\underset{v}{k}=
+\begin{bmatrix}
+k_1&0&\dots&0\\
+0&k_2&\dots&0\\
+\vdots&\vdots&\vdots&\vdots\\
+0&0&\dots&\underset{v}{k_p}
+\end{bmatrix}
+\end{equation}
+\item Расчет матрицы обратной связи промежуточной системы в исход-ном базисе:
+\begin{equation}
+\underset{v}{L}=L_fF_{e}^{-1}.
+\end{equation}
+\item Расчет результирующей матрицы обратной связи:
+\begin{equation}
+L=B_{*}^{-1}(F_*+\underset{v}{L}).
+\end{equation}
+\item Расчет матрицы передаточных коэффициентов по вектору ко-мандных сигналов:
+\begin{equation}
+k=B_{*}^{-1}\underset{v}{k}.
+\end{equation}
+Вектор управления формируется традиционным образом:
+\end{enumerate}
+\begin{equation}
+\vec{u}(t)=L\vec{x}(t)+k\vec{v}(t).
+\end{equation}
+При необходимости может быть синтезирован идентификатор (наблюдатель) неизмеряемых координат вектора состояния.
+\section{Основы построения идентификаторов состояния (наблюдателей)}
+\subsection{Наблюдатель Люенбергера полного порядка}
+\subsubsection{Синтез архитектуры наблюдателя}
+Рассмотрим линейную стационарную систему, которая описы-вается векторно-матричными дифференциальными уравнениями:
+\begin{equation}
+\begin{cases}
+\dot{\vec{x}}(t)=A\vec{x}(t)+B\vec{u}(t);\\
+\vec{y}(t)=C\vec{x}(t).
+\end{cases}
+\end{equation}
+Для такой системы существуют алгоритмы модального синтеза, кото-рые позволяют найти управление
+\begin{equation}
+\vec{u}(t)=L\vec{x}(t)+k\vec{v}(t),
+\end{equation}
+обеспечивающее заданные динамику и статику системы. Проблема заключается в необходимости использования вектора обратной связи для формирования такого управления. Фактически в распоряжении разработчика системы управления лишь вектор выхода $\vec{y}(t)$. Возникает вопрос: как, наблюдая за вектором $\vec{y}(t)$, восстановить вектор $\vec{x}(t)$ или найти его оценку $\hat{\vec{x}}(t)$ ?  При этом ошибка оценки вектора $\vec{x}(t)$  
+\begin{equation}
+\vec{e}(t)=\vec{x}(t)-\hat{\vec{x}}(t)
+\end{equation}
+должна быть относительно малой и тем более с течением времени не должна расти.
+
+Будем полагать, что  разработчику достаточно хорошо известны параметры объекта, то есть оценки $\hat{A},\hat{B},\hat{C}$  матриц A,B,C . Более того, положим
+\begin{equation}
+\hat{A}=A,\quad \hat{B}=B,\quad \hat{C}=C.
+\end{equation}
+В этом случае, если построить аналоговую или цифровую модель объекта в соответствии с уравнениями
+\begin{equation}
+\dot{\hat{\vec{x}}}=A\hat{\vec{x}}(t)+B\vec{u}(t);
+\end{equation}
+\begin{equation*}
+\hat{\vec{y}}(t)=C\hat{\vec{x}}(t),
+\end{equation*}
+как показано на рис. 3.16, то можно было бы ожидать выполнения равенств
+\begin{equation}
+\hat{\vec{x}}=\vec{x} \text{  и  } \hat{\vec{y}}=\vec{y}.
+\end{equation}
+\begin{figure}[H]
+	\centering{\includegraphics[width=0.6\linewidth]{3}}
+	\caption{Неудачный вариант построителя оценки вектора состояния}
+\end{figure}
+Однако априорное знание объекта (в том числе матриц А, В и С) является приближённым, параметры его могут дрейфовать во време-ни, начальные условия для вектора состояния, которые следовало бы подставить в модель, неизвестны. Поэтому в действительности в та-кой схеме ошибка оценки вектора состояния может иметь склонность к неограниченному росту с течением времени.
+
+Американским учёным Д.Г.Люенбергером впервые были изучены структуры работоспособных асимптотических идентификаторов (наблюдателей, восстановителей) вектора состояния, названных позднее его именем. Основополагающая идея состоит в том, чтобы в рассмотренную структурную схему ввести дополнительную обратную связь по ошибке оценки  вектора $\vec{y}$ , заведомо обеспечивающую асимптотическое затухание ошибки оценки вектора состояния. Внешне структурная схема наблюдателя Люенбергера полного порядка, которая приведена на рис. 3.17, совпадает с одной из форм из-вестного фильтра Калмана. Различие в том, что матрица К, которая в фильтре Калмана называется его именем (матрицей Калмана), в наблюдателе Люенбергера рассчитывается из других соображений. 
+
+В соответствии с рис.3.17 уравнение наблюдателя будет иметь вид
+\begin{equation}
+\dot{\hat{\vec{x}}}(t)=A\hat{\vec{x}}(t)+B\vec{u}(t)+K\left(\vec{y}(t)-\hat{\vec{y}}(t)\right).
+\end{equation}
+Получим уравнение для  ошибки оценки вектора состояния. Для этого в равенство (3.11.3) подставим выражения для вектора состояния и его оценки из (3.11.1) и (3.11.7):
+\begin{equation}
+\dot{\vec{e}}(t)=A\vec{x}(t)+B\vec{u}(t)-A\hat{\vec{x}}(t)-B\vec{u}(t)-K\left(C\vec{x}(t)-C\hat{\vec{x}}(t)\right),
+\end{equation}
+откуда
+\begin{equation}
+\dot{\vec{e}}(t)=L\cdot\vec{e}(t),
+\end{equation}
+\begin{figure}[H]
+	\centering{\includegraphics[width=0.6\linewidth]{4}}
+	\caption{Наблюдатель Люенбергера полного порядка}
+\end{figure}
+где
+\begin{equation}
+L=A-KC
+\end{equation}
+называют матрицей динамики наблюдателя. Выражение (3.11.8) является однородным дифференциальным уравнением. Решение его имеет вид
+\begin{equation}
+\vec{e}(t)=exp(L\cdot t)\cdot\vec{e}(0).
+\end{equation}
+Поведение ошибки во времени зависит от  собственных чисел матрицы наблюдателя $L$. Выбрав их соответствующим образом, можно достаточно быстро свести ошибку к нулю и получать от наблюдателя точную оценку вектора состояния. Далее будет показано, что если пара $\left\{ A,C \right\} $  наблюдаема, то соответствующим выбором матрицы K можно обеспечить любое желаемое расположение собственных чисел наблюдателя, т.е. матрицы $L$. Практически собственные значения наблюдателя выбираются так, чтобы состояние наблюдателя $\hat{\vec{x}}$ сходилось к состоянию наблюдаемой системы несколько быстрее  затухания переходных процессов в  желаемой замкнутой системе. Чрезмерное ускорение наблюдателя приводит к затруднениям при его реализации.
+\subsubsection{Алгоритм определения матрицы К для систем со скалярным выходом }
+
+Если пара $\left\{ A,C \right\} $ наблюдаема, то в пространстве вектора состояния существует базис $[i]$ , в котором эта пара имеет идентификационное каноническое представление (ИКП) $\left\{ A_l,C_l \right\} $ .
+
+Обозначим некоторый исходный базис как $[h]$ . В этом базисе дифференциальное уравнение для ошибки оценки вектора состояния имеет вид
+\begin{equation}
+\dot{\vec{e_h}}(t)=L_h\vec{e_h}(t).
+\end{equation}
+Перейдём к базису ИКП. Используем уже известное соотношение, связывающее координатные столбцы одного и того же вектора в разных базисах:
+\begin{equation}
+\vec{e_h}=l_h\vec{e_l}.
+\end{equation}
+Используя эту подстановку, запишем
+\begin{equation}
+l_h\cdot\dot{\vec{e_l}}(t)=L_h\cdot l_h\cdot\vec{e_l}(t).
+\end{equation}
+Умножив обе части последнего равенства на $l_{h}^{-1}$ , получим
+\begin{equation}
+\dot{\vec{e_l}}(t)=L_l\vec{e_l}(t),
+\end{equation}
+где
+\begin{equation}
+L_l=l_{h}^{-1}L_{h}l_h.
+\end{equation}
+Кроме того,
+\begin{equation}
+L_l=A_l-K_lC_l,
+\end{equation}
+где
+\begin{equation}
+A_l=l_{h}^{-1}A_hl_h;
+\end{equation}
+\begin{equation*}
+C_l=C_hl_h; K_l=L_{h}^{-1}K_h.
+\end{equation*}
+Матрица динамики  наблюдателя в базисе ИКП в соответствии с уравнением (3.11.14) имеет вид
+\begin{equation*}
+L_l=
+\begin{bmatrix}
+0&0&0&\dots&0&0&-\alpha_n\\
+1&0&0&\dots&0&0&-\alpha_{n-1}\\
+0&1&0&\dots&0&0&-\alpha_{n-2}\\
+\dots&\dots&\dots&\dots&\dots&\dots&\dots&\\
+0&0&0&\dots&1&0&-\alpha_2\\
+0&0&0&\dots&0&1&-\alpha_1
+\end{bmatrix}-
+\begin{bmatrix}
+0&0&\dots&0&K_{l1}\\
+0&0&\dots&0&K_{l2}\\
+0&0&\dots&0&K_{l3}\\
+\dots&\dots&\dots&\dots&\dots\\
+0&0&\dots&0&K_{ln-1}\\
+0&0&\dots&0&K_{ln}\\
+\end{bmatrix}=
+\end{equation*}
+\begin{equation*}
+=
+\begin{bmatrix}
+0&0&0&\dots&0&0&-\beta_n\\
+1&0&0&\dots&0&0&-\beta_{n-1}\\
+\dots&\dots&\dots&\dots&\dots&\dots&\dots&\\
+0&0&0&\dots&1&0&-\beta_2\\
+0&0&0&\dots&0&1&-\beta_1\\
+\end{bmatrix}
+\end{equation*}
+где $\beta_i$  – коэффициенты характеристического полинома наблюдателя, которые вычисляются на основании желаемых собственных чисел наблюдателя $\lambda_{i}^{N}$ согласно выражению
+\begin{equation}
+\varphi_l(\lambda)=\prod\limits_{i=1}^{n}(\lambda-\lambda_i^N)=\lambda^n+\beta_1\lambda^{n-1}+\dots+\beta_n.
+\end{equation}
+Очевидно выражение для элементов матрицы $K$ в базисе ИКП:
+\begin{equation}
+k_{lj}=\beta_{n+1-j}-\alpha_{n+1-j},\quad j=1,2,\dots,n.
+\end{equation}
+Перевод матрицы $K$ в исходный или какой-либо другой базис может быть произведён в соответствии с выражением (3.11.15) с использованием (3.7.13).
+\underline{ПРИМЕР 3.11.1}.Построить наблюдатель полного порядка для объекта со структурной схемой, приведённой на рис. 3.18.
+\begin{figure}[H]
+	\centering{\includegraphics[width=0.5\linewidth]{5}}
+	\caption{Объект для примера 3.11.1}
+\end{figure}
+Запишем матрицы объекта в исходном базисе:
+\begin{equation*}
+A=A_H=\begin{bmatrix}-2&1\\0&-1\end{bmatrix},\quad \vec{b}=\vec{b_H}=\begin{bmatrix}0\\1\end{bmatrix},\quad C=C_H=\begin{bmatrix}1&0\end{bmatrix}.
+\end{equation*}
+Характеристический полином объекта (матрицы динамики A)
+\begin{equation*}
+\varphi_A(\lambda)=(\lambda-\lambda_1)(\lambda-\lambda_2)=\lambda^2+3\lambda+2,
+\end{equation*}
+его коэффициенты
+\begin{equation*}
+\alpha_1=3;\quad\alpha_2=2,
+\end{equation*}
+нули(собственные числа)
+\begin{equation*}
+\lambda_1=-1;\quad\lambda_2=-2.
+\end{equation*}
+Время переходного процесса в объекте определяется наиболее близ-ким к мнимой оси собственным числом $\lambda_1$:
+\begin{equation*}
+t_{per}\approx\frac{3}{-\lambda_{11}}=3c.
+\end{equation*}
+Зададим собственные числа наблюдателя
+\begin{equation*}
+\lambda_1^N=\lambda_2^N=-3.
+\end{equation*}
+Им соответствует характеристический полином наблюдателя
+\begin{equation*}
+\varPhi_L(\lambda)=(\lambda+3)^2=\lambda^2+6\lambda+9,
+\end{equation*}
+его коэффициенты
+\begin{equation*}
+\beta_1=6;\quad \beta_2=9.
+\end{equation*}
+В соответствии с (3.11.17) определяем элементы матрицы   и саму эту матрицу в базисе ИКП:
+\begin{eqnarray}
+\begin{aligned}
+&k_{i1}=\beta_2-\alpha_2=7;\nonumber\\
+&k_{i2}=\beta_1-\alpha_1=3;\nonumber
+\end{aligned}
+\quad K_l=
+\begin{bmatrix}
+7\\3
+\end{bmatrix}.
+\end{eqnarray}
+Для того чтобы перевести матрицу K в исходный базис, рассчитаем матрицу наблюдаемости и обратную ей в исходном базисе:
+\begin{equation}
+N_H=\begin{bmatrix}1&0\\-2&1\end{bmatrix};\quad N_H^{-1}=\begin{bmatrix}1&0\\2&1\end{bmatrix};\nonumber
+\end{equation}
+учитывая представление в базисе ИКП
+\begin{equation}
+C_l=\left[0\: 1\right];\quad A_l=\begin{bmatrix}0&-2\\1&-3\end{bmatrix},\nonumber
+\end{equation}
+рассчитаем в этом базисе матрицу наблюдаемости
+\begin{equation}
+N_l=\begin{bmatrix}0&1\\1&-3\end{bmatrix}.\nonumber
+\end{equation}
+В соответствии с (3.11.13) вычислим матрицу перехода от исходного базиса $[h]$ к базису ИКП $[i]$:
+\begin{equation}
+l_H=N_H^{-1}N_l=\begin{bmatrix}0&1\\1&-1\end{bmatrix}.\nonumber
+\end{equation}
+Используя (3.11.15), получим матрицу K в исходном базисе
+\begin{equation}K_H=l_HK_l=\begin{bmatrix}3\\4\end{bmatrix}.\nonumber\end{equation}
+
+Теперь можно заняться уравнением наблюдателя в исходном базисе. В соответствии с (3.11.9) имеем
+\begin{equation}L_H=A_H-K_HC_H=\begin{bmatrix}-5&1\\-4&-1\end{bmatrix}.\nonumber\end{equation}
+Учитывая (3.11.17), запишем, опуская далее индекс исходного базиса:
+\begin{equation}\dot{\hat{\vec{x}}}=L\cdot\hat{\vec{x}}+Bu+Ky.\end{equation}Тогда уравнение наблюдателя будет иметь вид
+\begin{eqnarray}
+\left. 
+\begin{aligned}
+	\dot{\hat{x_1}}&=-5\hat{x_1}+\hat{x_2}+3y\\
+	\dot{\hat{x_2}}&=-4\hat{x_1}-\hat{x_2}+4y+u 
+\end{aligned}
+\right\}.
+\nonumber
+\end{eqnarray}
+\subsection{Наблюдатель пониженного порядка}
+
+Из предыдущего примера четко видно, что искать $\hat{x_1}$ было излишне, так как$y=x_1$. В тех случаях, когда некоторые координаты вектора $\vec{y}$ совпадают с какими-либо из координат вектора $\vec{x}$, то очевидно, что рассматриваемый  выше наблюдатель – наблюдатель полного порядка - выдает излишнюю информацию. Рассмотрим, каким образом можно получить наблюдатель с более простыми алгоритмами, полностью использующими информацию о векторе состояния $\vec{x}$, имеющуюся в векторе выхода $\vec{y}$. В более общем случае, когда вектор $\vec{y}$ имеет размерность $n_y$, оказывается достаточным построить наблюдатель, порядок которого равен $n-n_y$.
+
+Пусть вектор $\vec{y}$ имеет размерность $n_y$ и связан с вектором $\vec{x}$ равенством
+\begin{equation}
+\vec{y}=C\vec{x},
+\end{equation}
+или
+\begin{eqnarray}
+\left.\begin{aligned}
+&y_1=c_{11}x_1+c_{12}x_2+\dots+c_{1n}x_n\\
+&y_2=c_{21}x_1+c_{22}x_2+\dots+c_{2n}x_n\\
+&\dots\dots\dots\dots\dots\dots\dots\dots\dots\dots\\
+&y_{ny}=c_{ny,1}x_1+c_{ny,2}x_2+\dots+c_{ny,n}x_n
+\end{aligned}\right\}.
+\end{eqnarray}
+
+Если $x_1,x_2,\dots,x_n$ рассматривать как неизвестные, то здесь мы имеем $n$ неизвестных и $n_y<n$ уравнений. Таким образом, недостаёт $(n-n_y)$ уравнений. Полагаем, что $rankC=n_y$ , т. е. все строки матрицы C линейно независимы. Введем $(n-n_y)$- мерный вектор $\vec{q}$, до-полнив матрицу C до квадратной невырожденной матрицы $C_p$с по-мощью матрицы $C_q$ :
+\begin{equation}
+C_p=\begin{bmatrix}C\\C_q\end{bmatrix}.
+\end{equation}
+Запишем
+\begin{equation}
+\begin{bmatrix}\vec{y}\\\vec{q}\end{bmatrix}=\begin{bmatrix}C\\C_q\end{bmatrix}\vec{x},
+\end{equation}
+откуда следует
+\begin{equation}
+\vec{x}=C_p^{-1}\begin{bmatrix}\vec{y}\\ \vec{q}\end{bmatrix}.
+\end{equation}
+Обозначим 
+\begin{equation}
+C_p^{-1}=\left[F_{y[n\times n_y]}\quad F_{q[n\times(n-n_y)]}\right],
+\end{equation}
+тогда
+\begin{equation}
+\vec{x}=F_y\vec{y}+F_q\vec{q}.
+\end{equation}
+
+Если удастся найти оценку $\hat{\vec{q}}$ вектора $\vec{q}$, то можно будет вычис-лить оценку вектора состояния
+\begin{equation}
+\hat{\vec{x}}=F_y\vec{y}+F_q\hat{\vec{q}}.
+\end{equation}  
+Так как $\vec{q}=C_q\vec{x}$ , то  
+\begin{equation}
+\dot{\vec{q}}=C_qA\vec{x}+C_qB\vec{u}.
+\end{equation}
+Подставим сюда $\vec{x}$ из (3.11.26):
+\begin{equation}
+\dot{\vec{q}}=C_q A F_y\vec{y}+C_q A F_q\vec{q}+C_qB\vec{u}.
+\end{equation}
+
+Построим наблюдатель для вектора $\vec{q}$. В последнем уравнении векторы $\vec{u}$  и $\vec{y}$  выступают в качестве входов. Если попытаться коррекцию наблюдателя ввести традиционным образом: $K(\vec{y}-\hat{\vec{y}})$ , то получим
+\begin{equation}
+\hat{\vec{y}}=C\hat{\vec{x}}=CF_y\vec{y}+CF_q\hat{\vec{q}}.
+\end{equation}
+Но из (3.11.21) и (3.11.24) имеем
+\begin{equation}
+C_pC_p^{-1}=\begin{bmatrix}C\\C_q\end{bmatrix}\left[F_y\quad F_q\right]=\begin{bmatrix}CF_y&CF_q\\C_qF_y&C_qF_q\end{bmatrix}=E_n,\nonumber
+\end{equation}
+откуда должно следовать $CF_y=E_ny$ ; $CF_q=0$ , то есть $\hat{\vec{y}}=\vec{y}$ и информации о $\vec{q}$ здесь нет. Поэтому примем
+\begin{equation}
+\dot{\hat{\vec{q}}}=C_qAF_q\hat{\vec{q}}+C_qB\vec{u}+C_qAF_y\hat{\vec{y}}+K\left(\dot{\vec{y}}-\dot{\hat{\vec{y}}}\right).
+\end{equation}
+
+Проведем необходимые преобразования. Так как
+\begin{equation}
+\dot{\vec{y}}=C\dot{\vec{x}}=CA\hat{x}+CB\vec{u},\nonumber
+\end{equation}
+то с учетом (3.11.26) получим
+\begin{equation}
+ \dot{\hat{\vec{y}}}=CAF_y\vec{y}+CAF_q\hat{\vec{q}}+CB\vec{u}.
+\end{equation}
+Проследим за поведением ошибки оценки
+\begin{equation}
+\Delta\dot{\vec{q}}=\vec{q}(t)-\hat{\vec{q}}(t).\nonumber
+\end{equation}
+Используя полученные выше выражения для $\dot{\vec{q}}$ и $\dot{\hat{\vec{q}}} $ - (3.11.28) и (3.11.30), получим:
+\begin{equation}
+\Delta\dot{\vec{q}}=C_qAF_q\Delta\vec{q}-K\left(\dot{\vec{y}}-\dot{\hat{\vec{y}}}\right).
+\end{equation}
+Вычислим разность $\dot{\vec{y}}-\dot{\hat{\vec{y}}}$:
+\begin{eqnarray}
+\begin{aligned}
+&\dot{\vec{y}}=C\dot{\vec{x}}=CA\vec{x}+CB\vec{u}=CAF_y\vec{y}+CAF_q\vec{q}+CB\vec{u}\\&-\\
+&\underline{\dot{\hat{\vec{y}}}=C\dot{\hat{\vec{x}}}=CA\hat{\vec{x}}+CB\vec{u}=CAF_y\hat{\vec{y}}+CAF_q\hat{\vec{q}}+CB\vec{u}}\\
+&\dot{\vec{y}}-\dot{\hat{\vec{y}}}=CAF_y(\vec{y}-\hat{\vec{y}})+CAF_q\Delta\vec{q}.\nonumber
+\end{aligned}
+\end{eqnarray}
+Так как выше было показано, что $\hat{\vec{y}}=\vec{y}$ , то окончательно получим
+\begin{equation}
+\Delta\dot{\vec{q}}(t)=L^q\Delta\vec{q},
+\end{equation}
+где матрица наблюдателя
+\begin{equation}
+L^q=C_qAF_q-KCAF_q.
+\end{equation}
+
+Очевидно, что можно «заказать динамику обнуления ошибки», выбирая $K$  ($C_qAF_q$  и $CAF_q$ - заданные матрицы). Матрицу K  следует выбирать таким образом, чтобы обеспечить заданное расположение собственных чисел наблюдателя. Если, например, $n_y=1$ , то $C_qAF_q$  имеет размер $\left[(n-n_y)\times(n-n_y)\right]$, а $CAF_q - \left[1\times(n-n_y)\right]$  и K - $\left[(n-n_y)\times1\right]$ . В этом случае задача решается аналогично расчету наблюдателя полного порядка со скалярным выходом.
+
+Таким образом, рассчитав собственные значения матрицы $C_qAF_q$ , задавшись желаемыми собственными значениями наблюдателя пониженного порядка и получив соответствующие значения коэффициентов его характеристического полинома, легко записать выражение для матрицы K в базисе идентификационного канонического представления. После этого потребуется перевести матрицу K в исходный базис. Если известна пара матриц $\left\{C_qAF_q,CAF_q\right\}$ , то через матрицы наблюдаемости в исходном базисе и в базисе идентификационного канонического представления $N_h$ и $N_l$ , причем N должна быть построена с использованием пары матриц $\left\{C_qAF_q,CAF_q\right\}$, можно найти матрицу перехода от базиса $[i]$  к исходному базису $[h]$.
+
+Теперь следует позаботиться о реализуемости алгоритма наблюдателя. Из уравнения (3.11.30) с учетом (3.11.25) получим   
+\begin{equation}
+\dot{\hat{\vec{q}}}=L^q\hat{\vec{q}}+(C_qB-KCB)\vec{u}+(C_qAF_y-KCAF_y)\vec{y}+K\dot{\vec{y}}.
+\end{equation}
+
+Это уравнение  для реализации не годится, так как в случае его использования пришлось бы осуществлять операции дифференцирования вектора $\vec{y}(t)$. В реальных условиях на вектор выхода объекта, как правило, наложены шумы измерений и другой физической природы. Эти шумы характеризуются широким спектром, и дифференцирование существенно увеличивает шумовую составляющую в выходном сигнале.
+
+Для того чтобы не решать задачу измерения $\dot{\vec{y}}$ , введем новую переменную $\vec{\xi}=\vec{q}-k\vec{y}$ , тогда
+\begin{equation}
+\vec{q}=\vec{\xi}+k\vec{y}.
+\end{equation}
+Проведем соответствующую замену в (3.11.34) и в результате получим  первое уравнение наблюдателя
+\begin{equation}
+\dot{\vec{\xi}}=L^q\vec{\xi}+(C_qB-KCB)\vec{u}+(L^qK+C_qAF_y-KCAF_y)\vec{y}.
+\end{equation}
+
+Теперь из уравнений (3.11.30) и (3.11.35) имеем
+\begin{equation}
+\hat{\vec{x}}=F_y\vec{y}+F_q\hat{\vec{q}}=F_y\vec{y}+F_q\vec{\xi}+F_qK\vec{y},
+\end{equation}
+или
+\begin{equation}
+\hat{\vec{x}}=(F_y+F_qK)\vec{y}+F_q\vec{\xi}.
+\end{equation}
+Это - второе уравнение наблюдателя. Таким образом, получено уравнение оценки $\hat{\vec{x}}$  вектора $\vec{x}$  с помощью наблюдателя пониженного порядка.
+\end{document}
